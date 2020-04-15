@@ -1,0 +1,150 @@
+<html>
+    <head>
+        <link href="css/css.css" type="text/css" rel="stylesheet">
+        <title>Neural Network Project</title>
+    </head>
+    
+    <body>
+        
+        <div class="back" >
+            <header>
+                <hgroup >
+                    <p style="color:black; text-align: center; font-size: 18">
+                        <img src="assets/Artboard%201.png" style="width:29% ;height:10%"  ><br>Calculate your Neural Network  problems fast with our app
+                    </p><br>
+                </hgroup>
+            </header>
+        </div>
+     
+        <div class="front">
+           
+            <section>
+                        
+                <div class="" id="basic">
+                    <article>
+                        <label>What is the type of network?</label>
+                        <input type="radio" name="type" value="Perceptron" checked>Perceptron
+                        <input type="radio" name="type" value="Hamming">Hamming
+                        <input type="radio" name="type" value="Hebbian">Hebbian
+                        <input type="radio" name="type" value="Pseudoinverse">Pseudoinverse
+                     </article>
+                    
+                    <article >
+                        <label>What is the number of prototypes?</label>    
+                        <input type="number" name="P" min="2" max="10" step="1" value="2" id="numP" required>
+                        <span class="error hide" id="numPerror">It must be between 2 and 10</span>
+                    </article>
+
+                    <article>
+                        <label>What is the number of elements in each prototype (R)?</label>
+                        <input type="number" name="R" min="2" max="10" step="1" value="2" id="R" required>
+                        <span class="error hide" id="Rerror">It must be between 2 and 10</span>
+                    </article>
+
+                    <button value="next" id="basicNext">NEXT</button>
+                </div>
+                
+                <div class="none" id="perc">
+                    <article>
+                        <label>what is the number of elements in each target? </label>
+                        <input type="number" min="1" max="4" step="1" value="1" id="numT" required>
+                        <span class="error hide" id="numTerror">It must be between 1 and 4</span>
+                    </article>
+                    <article>
+                        <label>Is there initial weight? </label>
+                        <input type="radio" name="thereWeight" value="Yes">Yes
+                        <input type="radio" name="thereWeight" value="No" checked>No
+                    </article>
+                    <article>
+                        <label>Is the bias is required? </label>
+                        <input type="radio" name="thereBias" value="Yes">Yes
+                        <input type="radio" name="thereBias" value="No" checked>No
+                    </article>
+                    <article class="hide" id="thereInitBias">
+                        <label>Is there initial bias?</label>
+                        <input type="radio" name="thereInitBias" value="Yes">Yes
+                        <input type="radio" name="thereInitBias" value="No" checked>No
+                    </article>
+                    <button  id="backToBasic">Back</button> 
+                    <button  id="NextInput">NEXT</button>
+                </div>
+                
+                <div class="none" id="percInput" >
+                    <article>
+                        <label>what is the Transfer function? </label>
+                        <select name="Transfer">
+                            <option value="hardlim">Hard Limit</option>
+                            <option value="hardlims">Symetric Hard Limit</option>
+                            <option value="purelin">Puree Linear</option>
+                            <option value="satlin">Saturating Linear</option>
+                            <option value="satlins">Symetric Saturating Linear</option>
+                            <option value="logsig">Log-Sigmoid</option>
+                            <option value="tansig">Hyperbolic Tangent Sigmoid</option>
+                            <option value="poslin">Positive Linear</option>
+                        </select>
+                    </article>
+                    <div id="putPercInput">
+                    </div>
+                    <button  id="backToPrec">Back</button> 
+                    <button  id="finish">Finish</button>
+                    <div class="error hide" id="errorPer">You must enter valid inputs check your input and try again</div>
+                </div>
+                
+                <div class="none" id="hammingInput" >
+                    <div id="putHammingInput">
+                    </div>
+                    <button  id="hammTobasic">Back</button> 
+                    <button  id="finishHamming">Finish</button>
+                    <div class="error hide" id="errorHam">You must enter valid inputs check your input and try again</div>
+                </div>
+                
+                <div class="none" id="hebb">
+                    <article>
+                        <label>Is the bias is required? </label>
+                        <input type="radio" name="thereBiasHebb" value="Yes">Yes
+                        <input type="radio" name="thereBiasHebb" value="No" checked>No
+                    </article>
+                    <article>
+                        <label>Are you want to add The target?</label>
+                        <input type="radio" name="thereTargetHebb" value="Yes">Yes
+                        <input type="radio" name="thereTargetHebb" value="No" checked>No
+                    </article>
+                    <article class="hide" id="TargetHebb">
+                        <label>what is the number of elements in each target? </label>
+                        <input type="number" min="1" max="10" step="1" value="1" id="numTHebb">
+                        <span class="error hide" id="numTHebberror">It must be between 1 and 4</span>
+                    </article>
+                    <button  id="hebbTobasic">Back</button> 
+                    <button  id="nexthHebb">NEXT</button>
+                </div>
+                
+                <div class="none" id="hebbInput" >
+                    <article>
+                        <label>what is the Transfer function? </label>
+                        <select name="TransferHebb">
+                            <option value="hardlim">Hard Limit</option>
+                            <option value="hardlims">Symetric Hard Limit</option>
+                            <option value="purelin">Puree Linear</option>
+                            <option value="satlin">Saturating Linear</option>
+                            <option value="satlins">Symetric Saturating Linear</option>
+                            <option value="logsig">Log-Sigmoid</option>
+                            <option value="tansig">Hyperbolic Tangent Sigmoid</option>
+                            <option value="poslin">Positive Linear</option>
+                        </select>
+                    </article>
+                    <div id="putHebbInput">
+                    </div>
+                    <button  id="backToHebb">Back</button> 
+                    <button  id="finishHebb">Finish</button>
+                    <div class="error hide" id="errorHeb">You must enter valid inputs check your input and try again</div>
+                </div>
+            </section>
+        </div>
+        <script src="js/basicCalc.js"></script>
+        <script src="js/perceptron.js"></script>
+        <script src="js/hamming.js"></script>
+        <script src="js/hebbian.js"></script>
+        <script src="js/pseudoinverse.js"></script>
+        <script src="js/script.js"></script>
+    </body>
+</html>
