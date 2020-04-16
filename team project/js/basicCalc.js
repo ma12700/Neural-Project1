@@ -62,7 +62,7 @@ function subTwoMatrix(arr1 , arr2){
             sum = 0;
             for (k = 0; k < kCols; k++) 
             {
-                sum += parseInt(matrixA[i][k]) * parseInt(matrixB[k][j]);
+                sum += parseFloat(matrixA[i][k]) * parseInt(matrixB[k][j]);
             }
             matrixRow.push(sum);
         }
@@ -106,7 +106,7 @@ function transferFunction(mat1, fname){
             break;
 
         case 'hardlims':
-            for(i = 0 ; i<= mat1.length ; i++){
+            for(i = 0 ; i < mat1.length ; i++){
                 if(mat1[i][0] >= 0){
                     a.push([1]);
                 }else{
@@ -120,7 +120,7 @@ function transferFunction(mat1, fname){
             break;
 
         case 'satlin':
-            for(i = 0 ; i<= mat1.length ; i++){
+            for(i = 0 ; i < mat1.length ; i++){
                 if(mat1[i][0] < 0){
                     a.push([0]);
                 }else if(mat1[i][0] > 1){
@@ -132,7 +132,7 @@ function transferFunction(mat1, fname){
             break; 
 
         case 'satlins':
-            for(i = 0 ; i<= mat1.length ; i++){
+            for(i = 0 ; i < mat1.length ; i++){
                 if(mat1[i][0] < -1){
                     a.push([-1]);
                 }else if(mat1[i][0] > 1){
@@ -145,25 +145,25 @@ function transferFunction(mat1, fname){
             break; 
 
         case 'logsig':
-            for(i = 0 ; i<= mat1.length ; i++){
+            for(i = 0 ; i < mat1.length ; i++){
                 a.push([1/(1+Math.pow(Math.E,mat1[i][0]))]);
             }
             break; 
 
-            case 'tansig':
-                for(i = 0 ; i<= mat1.length ; i++){
-                    a.push([(Math.pow(Math.E,mat1[i][0]) - Math.pow(Math.E,-1 * mat1[i][0])) / (Math.pow(Math.E,mat1[i][0]) + Math.pow(Math.E,-1 * mat1[i][0]))]);
-                }
-                break; 
+        case 'tansig':
+            for(i = 0 ; i < mat1.length ; i++){
+                a.push([(Math.pow(Math.E,mat1[i][0]) - Math.pow(Math.E,-1 * mat1[i][0])) / (Math.pow(Math.E,mat1[i][0]) + Math.pow(Math.E,-1 * mat1[i][0]))]);
+            }
+            break; 
 
-            case 'poslin':
-                for(i = 0 ; i<= mat1.length ; i++){
-                   if(mat1[i][0] < 0){
-                        a.push([0]);
-                    }else{
-                        a.push([mat1[i][0]]);
-                    }
+        case 'poslin':
+            for(i = 0 ; i < mat1.length ; i++){
+                if(mat1[i][0] < 0){
+                    a.push([0]);
+                }else{
+                    a.push([mat1[i][0]]);
                 }
+            }
                 break;
 
         }

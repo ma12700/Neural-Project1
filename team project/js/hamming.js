@@ -1,3 +1,4 @@
+/*global console */
 /*
 ***
 *** the input for that network is the input as example P = [[1,2],[3,4]]; P is capital letter and Transpose
@@ -11,28 +12,53 @@
 function Hamming(P) {
     var W1 = P,
         R = P[0].length,
-        B = new Array(),
-        e = (1 / (P.length - 1)) / 2,
-        W2 = new Array(),
+        B = [],
+        e = (1.0 / (P.length - 1.0)) / 2.0,
+        W2 = [],
+        a1 = [],
+        a2 = [],
         newRow,
-        i,j;
-    for (i = 1; i <= P.length; i++){
-        B.push(R);
+        i,j,k,test,z;
+    
+    for (i = 0; i < P.length; i++){
+        B.push([R]);
     }
-    for (i = 1; i <= P.length; i++){
+    for (i = 0; i < P.length; i++){
         newRow = new Array();
-        for (j = 1; j <= R; j++){
+        for (j = 0; j < R; j++){
             if (i === j) {
-                newRow.push(1);
+                newRow.push(1.0);
             } else {
-                newRow.push(-1 * e);
+                newRow.push(-1.0 * e);
             }
         }
+        W2.push(newRow);
     }
     
-    /*
-    ***
-    ***start learning from here
-    ***
-    */
+    P = tranposeMatrix(P);
+
+    for (i = 0; i < P[0].length; i++) {
+        a1 = addTwoMatrix(multiplyTwoMatrix(W1,P,i),B);
+        z = 0;
+        do{
+            a2 = transferFunction(multiplyTwoMatrix(W2,a1,0),"poslin");
+            a1 = a2;
+            console.log("after a2 of " + i + ": " + a2);
+            test = 0;
+            for(k = 0; k < R; k++){
+                if(a2[k][0] > 0){
+                    test++;
+                    j = k;
+                }
+            }
+            z++;
+        }while(test > 1 && z < 15);
+        if(z !== 15){
+            console.log("output of "+ i + " is: " + j);
+        }
+         
+    }
+    
+    
+    
 }

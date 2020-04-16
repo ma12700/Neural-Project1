@@ -300,7 +300,7 @@ window.onload = function () {
             P.push(newRow);
         }
         if (flag === 0) {
-            //Hamming(P);
+            Hamming(P);
         } else {
             errorHam.className = "error";
         }
