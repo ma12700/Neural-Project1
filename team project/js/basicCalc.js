@@ -62,7 +62,7 @@ function subTwoMatrix(arr1 , arr2){
             sum = 0;
             for (k = 0; k < kCols; k++) 
             {
-                sum += parseFloat(matrixA[i][k]) * parseInt(matrixB[k][j]);
+                sum += parseFloat(matrixA[i][k]) * parseFloat(matrixB[k][j]);
             }
             matrixRow.push(sum);
         }
@@ -116,7 +116,9 @@ function transferFunction(mat1, fname){
                 break;
 
         case 'purelin':
-            a = mat1;
+            for(i = 0 ; i < mat1.length ; i++){
+               a.push(mat1[i]); 
+            }
             break;
 
         case 'satlin':

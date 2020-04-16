@@ -134,14 +134,13 @@ window.onload = function () {
         } else {
             hebb.className = "none";
             hebbInput.className = "";
-            var thereTargetHebb = document.querySelector('input[name="thereTargetHebb"]:checked').value,
-                html = "<label>Inputs &amp; Targets</label>\n";
+                var html = "<label>Inputs &amp; Targets</label>\n";
             for (i = 1; i <= numP.value; i++) {
                 html += "<article>\n <span>P" + i + "</span>\n";
                 for (j = 1; j <= R.value; j++) {
                     html += "<input type='number' id='HebP" + i + "" + j + "' value='0'>\n";
                 }
-                if (thereTargetHebb === "Yes") {
+                if (thereTargetHebb[0].checked) {
                     html += "<span class='target'>T" + i + "</span>\n";
                     for (j = 1; j <= numTHebb.value; j++) {
                         html += "<input type='number' id='HebT" + i + "" + j + "' value='0'>\n";
@@ -270,7 +269,7 @@ window.onload = function () {
             }
         } 
         if (flag === 0){
-            Perceptron(P, T, W, B, tranfer);
+            Perceptron(P, T, W, B, requB, tranfer);
         } else {
             errorPer.className = "error";
         }
@@ -310,7 +309,7 @@ window.onload = function () {
     finishHebb.onclick = function () {
         var P = new Array(),
             T = new Array(),
-            //tranfer = document.querySelector("select[name='TransferHebb']").value,
+            transfer = document.querySelector("select[name='TransferHebb']").value,
             errorHeb = document.getElementById("errorHeb"),
             newRow;
         
@@ -333,7 +332,7 @@ window.onload = function () {
             P.push(newRow);
         }
         if (flag === 0) {
-            if (thereTargetHebb === "Yes") {
+            if (thereTargetHebb[0].checked) {
                 for (i = 1; i <= numP.value; i++) {
                     newRow = new Array();
                     for (j = 1; j<= numTHebb.value; j++) {
@@ -350,11 +349,11 @@ window.onload = function () {
             }
         }
         if (flag === 0) {
-            //var thereBiasHebb = document.querySelector('input[name="thereBiasHebb"]:checked').value;
+            var thereBiasHebb = document.querySelector('input[name="thereBiasHebb"]:checked').value;
             if(type.value === "Hebbian"){
-                //Hebbian(P , T, thereBiasHebb, tranfer);
+                Hebbian(P , T, thereBiasHebb, transfer);
             } else {
-                //Pseudoinverse(P, T , thereBiasHebb, tranfer);
+                Pseudoinverse(P, T , thereBiasHebb, transfer);
             }
         } else {
             errorHeb.className = "error";

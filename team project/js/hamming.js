@@ -45,7 +45,7 @@ function Hamming(P) {
             a1 = a2;
             console.log("after a2 of " + i + ": " + a2);
             test = 0;
-            for(k = 0; k < R; k++){
+            for(k = 0; k < a2.length; k++){
                 if(a2[k][0] > 0){
                     test++;
                     j = k;
