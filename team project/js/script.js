@@ -1,5 +1,6 @@
-/*global window,document */
+/*global window,document,alert */
 //P, W, T, B, N, A
+
 window.onload = function () {
     'use strict';
     var initW, requB, initB, type, flag, i, j, val,
@@ -31,6 +32,8 @@ window.onload = function () {
         finishPer = document.getElementById("finish"),
         finishHamming = document.getElementById("finishHamming"),
         finishHebb = document.getElementById("finishHebb");
+    
+/************************* Next Buttons ************************************/
     
     basicNext.onclick = function () {
         flag = 0;
@@ -72,25 +75,6 @@ window.onload = function () {
         
     };
     
-    if (bias[0].checked) {
-        thereInitBias.className = "";
-    }
-    bias[0].onclick = function () {
-        thereInitBias.className = "";
-    };
-    bias[1].onclick = function () {
-        thereInitBias.className = "hide";
-    };
-    
-    if (thereTargetHebb[0].checked) {
-        TargetHebb.className = "";
-    }
-    thereTargetHebb[0].onclick = function () {
-        TargetHebb.className = "";
-    };
-    thereTargetHebb[1].onclick = function () {
-        TargetHebb.className = "hide";
-    };
     
     NextInput.onclick = function () {
         initW = document.querySelector('input[name="thereWeight"]:checked').value;
@@ -157,9 +141,7 @@ window.onload = function () {
                 for (j = 1; j <= R.value; j++) {
                     html += "<input type='number' id='HebP" + i + "" + j + "' value='0'>\n";
                 }
-                if (thereTargetHebb === "No") {
-                    numTHebb.value = R.value;
-                } else {
+                if (thereTargetHebb === "Yes") {
                     html += "<span class='target'>T" + i + "</span>\n";
                     for (j = 1; j <= numTHebb.value; j++) {
                         html += "<input type='number' id='HebT" + i + "" + j + "' value='0'>\n";
@@ -171,6 +153,8 @@ window.onload = function () {
         }
         
     };
+    
+/************************* Back Buttons ************************************/
     
     backToBasic.onclick = function () {
         basic.className = "";
@@ -196,9 +180,100 @@ window.onload = function () {
         hebb.className = "";
         hebbInput.className = "none";
     };
+
+
+/************************* finish Buttons ************************************/
     
     finishPer.onclick = function () {
+        var P = new Array(),
+            T = new Array(),
+            W = new Array(),
+            B = new Array(),
+            tranfer = document.querySelector("select[name='Transfer']").value,
+            errorPer = document.getElementById("errorPer"),
+            newRow;
         
+        errorPer.className = "hide";
+        flag = 0;
+        
+        for (i = 1; i <= numP.value; i++) {
+            newRow = new Array();
+            for (j = 1; j<= R.value; j++) {
+                val = document.getElementById("PerP" + i + "" + j).value;
+                if (val  === "") {
+                    flag = 1;
+                    break;
+                } else {
+                    newRow.push(parseFloat(val));
+                }
+            }
+            if (flag === 1){
+                break;
+            }
+            P.push(newRow);
+        }
+        if (flag === 0) {
+            for (i = 1; i <= numP.value; i++) {
+                newRow = new Array();
+                for (j = 1; j<= numT.value; j++) {
+                    val = document.getElementById("PerT" + i + "" + j).value;
+                    if (val === "") {
+                        flag = 1;
+                        break;
+                    } else {
+                        newRow.push(parseInt(val));
+                    }
+                }
+                if (flag === 1){
+                    break;
+                }
+                T.push(newRow);
+            }
+        }
+        if (flag === 0){
+            if (initW === "Yes") {
+                for (i = 1; i <= numT.value; i++) {
+                    newRow = new Array();
+                    for (j = 1; j <= R.value; j++) {
+                        val = document.getElementById("PerW" + i + "" + j).value;
+                        if (val === "") {
+                            flag = 1;
+                            break;
+                        } else {
+                            newRow.push(parseFloat(val));
+                        }
+                    }
+                    if (flag === 1){
+                        break;
+                    }
+                    W.push(newRow);
+                }
+            }
+        }
+        if (flag === 0){
+            if (requB === "Yes") {
+                if (initB === "Yes") {
+                    newRow = new Array();
+                    for (j = 1; j <= numT.value; j++) {
+                        val = document.getElementById("PerB" + j).value;
+                        if (val === "") {
+                            flag = 1;
+                            break;
+                        } else {
+                            newRow.push(parseFloat(val));
+                        }
+                    }
+                    if (flag === 0){
+                        B.push(newRow);
+                    }
+                }
+            }
+        } 
+        if (flag === 0){
+            Perceptron(P, T, W, B, tranfer);
+        } else {
+            errorPer.className = "error";
+        }
     };
     
     finishHamming.onclick = function () {
@@ -225,7 +300,7 @@ window.onload = function () {
             P.push(newRow);
         }
         if (flag === 0) {
-            perceptron(P);
+            //Hamming(P);
         } else {
             errorHam.className = "error";
         }
@@ -235,7 +310,7 @@ window.onload = function () {
     finishHebb.onclick = function () {
         var P = new Array(),
             T = new Array(),
-            tranfer = document.querySelector("select[name='TransferHebb']").value,
+            //tranfer = document.querySelector("select[name='TransferHebb']").value,
             errorHeb = document.getElementById("errorHeb"),
             newRow;
         
@@ -258,29 +333,53 @@ window.onload = function () {
             P.push(newRow);
         }
         if (flag === 0) {
-            for (i = 1; i <= numP.value; i++) {
-                newRow = new Array();
-                for (j = 1; j<= R.value; j++) {
-                    val = document.getElementById("HebT" + i + "" + j).value;
-                    if (val === "") {
-                        flag = 1;
-                        break;
-                    } else {
-                        newRow.push(parseFloat(val));
+            if (thereTargetHebb === "Yes") {
+                for (i = 1; i <= numP.value; i++) {
+                    newRow = new Array();
+                    for (j = 1; j<= numTHebb.value; j++) {
+                        val = document.getElementById("HebT" + i + "" + j).value;
+                        if (val === "") {
+                            flag = 1;
+                            break;
+                        } else {
+                            newRow.push(parseInt(val));
+                        }
                     }
+                    T.push(newRow);
                 }
-                T.push(newRow);
             }
         }
-        if (flag === 0){
-            var thereBiasHebb = document.querySelector('input[name="thereBiasHebb"]:checked').value;
+        if (flag === 0) {
+            //var thereBiasHebb = document.querySelector('input[name="thereBiasHebb"]:checked').value;
             if(type.value === "Hebbian"){
-                Hebbian(P , T, thereBiasHebb, tranfer);
+                //Hebbian(P , T, thereBiasHebb, tranfer);
             } else {
-                Pseudoinverse(P, T , thereBiasHebb, tranfer);
+                //Pseudoinverse(P, T , thereBiasHebb, tranfer);
             }
         } else {
             errorHeb.className = "error";
         }
+    };
+    
+/************************* show/hide radio Buttons ************************************/
+    
+    if (bias[0].checked) {
+        thereInitBias.className = "";
+    }
+    bias[0].onclick = function () {
+        thereInitBias.className = "";
+    };
+    bias[1].onclick = function () {
+        thereInitBias.className = "hide";
+    };
+    
+    if (thereTargetHebb[0].checked) {
+        TargetHebb.className = "";
+    }
+    thereTargetHebb[0].onclick = function () {
+        TargetHebb.className = "";
+    };
+    thereTargetHebb[1].onclick = function () {
+        TargetHebb.className = "hide";
     };
 };

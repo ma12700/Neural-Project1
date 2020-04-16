@@ -1,146 +1,172 @@
-function addTwoMatrix(arr1 , arr2){
-   for (var i=0 ; i<arr1.length ; i++){
-       for (var j = 0; j < arr1[0].length; j++){
-           arr1[i][j] += arr2[i][j]; 
-       }
-   }
-}
-
-function subTwoMatrix(arr1 , arr2){
-    for (var i=0 ; i<arr1.length ; i++){
-       for (var j = 0; j < arr1[0].length; j++){
-           arr1[i][j] -= arr2[i][j]; 
-       }
-   }
- }
- 
- function multiplyTwoMatrix(matrixA,matrixB){
-    var result = new Array();//declare an array   
-
-    //var numColsRows=$("#matrixRC").val();
-    var numRows=matrixA.length;
-    //matrixA[0].length
-    var numCols = matrixB[0].length;
-    var kCols = matrixB.length;
-    var sum = 0;
-
-    //iterating through first matrix rows
-    for (var i = 0; i < numRows; i++) 
-    {    
-        var matrixRow = new Array();
-
-        //iterating through second matrix columns
-        for (var j = 0; j < numCols; j++) 
-        { 
-            //declare an array
-            sum = 0;
-          
-            //calculating sum of pairwise products
-            for (var k = 0; k < kCols; k++) 
-            {
-                sum += parseInt(matrixA[i][k]) * parseInt(matrixB[k][j]);
-            }//for 3
-
-            matrixRow.push(sum);
-         
-        }//for 2
-        //result.push(matrixRow);
-        result.push(matrixRow);
-    }//for 1
+/* global console */
+function tranposeMatrix(mat){
+     var newRow,
+         result = new Array();
+    for (var i = 0; i < mat[0].length; i++) { 
+        newRow = new Array();
+        for (var j = 0; j < mat.length; j++) { 
+            newRow.push(mat[j][i]);
+        } 
+        result.push(newRow);
+    }
     return result;
  }
 
- function mulByConst(c , arr){
-     for (var i=0 ; i<arr.length ; i++){
-         arr[i] *= c;
-     }
-     return arr;
+function addTwoMatrix(arr1 , arr2){
+    var result = new Array(),
+        newRow,i,j;
+    
+    for (i=0 ; i<arr1.length ; i++){
+        newRow = new Array();
+       for (j = 0; j < arr1[0].length; j++){
+           newRow.push(arr1[i][j] + arr2[i][j]);
+       }
+        result.push(newRow);
+    }
+    return result;
+}
+
+function subTwoMatrix(arr1 , arr2){
+    var result = new Array(),
+        newRow,i,j;
+    
+    for (i=0 ; i<arr2.length ; i++){
+        newRow = new Array();
+       for (j = 0; j < arr2[0].length; j++){
+           newRow.push(arr1[i][j] - arr2[i][j]);
+       }
+        result.push(newRow);
+    }
+    return result;
+ }
+ 
+ function multiplyTwoMatrix(matrixA,matrixB,z){
+    var result = new Array(),
+        numRows=matrixA.length,
+        numCols = matrixB[0].length,
+        kCols = matrixB.length,
+        sum = 0,
+        j,k;
+
+    for (i = 0; i < numRows; i++) 
+    {    
+        var matrixRow = new Array();
+        if (z !== -1){
+             numCols = z+1;
+             j = z;
+         }else{
+             j = 0;
+         }
+        for (; j < numCols; j++) 
+        { 
+            sum = 0;
+            for (k = 0; k < kCols; k++) 
+            {
+                sum += parseInt(matrixA[i][k]) * parseInt(matrixB[k][j]);
+            }
+            matrixRow.push(sum);
+        }
+        result.push(matrixRow);
+    }
+    return result;
  }
 
 
- function tranposeMatrix(mat){
-    for (var i = 0; i < mat.length; i++) { 
-        for (var j = 0; j < i; j++) { 
-            var tmp = mat[i][j]; 
-            mat[i][j] = mat[j][i]; 
-            mat[j][i] = tmp; 
-        } 
-    } 
- }
+function compare(mat1, mat2 , k) {
+    for (var i = 0; i < mat1.length; i++) {
+        if (mat1[i][0] != mat2[i][k]) {
+            return false;
+        }
+    }
+    return true;
+}
 
-function transferFunction(fname,n){
-    var a = new Array();
+function multByConst(e,P,j){
+    var result = new Array();
+    for(var i=0; i < P.length; i++){
+        result.push(e * P[i][j]); 
+    }
+    return result;
+}
+
+
+
+function transferFunction(mat1, fname){
+    var a = new Array(),i;
+   
     switch(fname){
         case 'hardlim':
-            for(i=0 ; i<= n.length ; i++){
-                if(n[i] >= 0){
-                    a.push(1);
+            for (i = 0; i < mat1.length; i++) {
+                if(mat1[i][0] >= 0){
+                    a.push([1]);
                 }else{
-                    a.push(0);
+                    a.push([0]);
                 }
             }
             break;
-            
+
         case 'hardlims':
-            for(i=0 ; i<= n.length ; i++){
-                if(n[i] >= 0){
-                    a.push(1);
+            for(i = 0 ; i<= mat1.length ; i++){
+                if(mat1[i][0] >= 0){
+                    a.push([1]);
                 }else{
-                    a.push(-1);
+                    a.push([-1]);
                 }
             }
-            break;
-            
+                break;
+
         case 'purelin':
-            a = n;
+            a = mat1;
             break;
-            
+
         case 'satlin':
-            for(i=0 ; i<= n.length ; i++){
-                if(n[i] < 0){
-                    a.push(1);
-                }else if(n[i] > 1){
-                    a.push(1);
+            for(i = 0 ; i<= mat1.length ; i++){
+                if(mat1[i][0] < 0){
+                    a.push([0]);
+                }else if(mat1[i][0] > 1){
+                    a.push([1]);
                 }else{
-                    a.push(n[i]);
+                    a.push([mat1[i][0]]);
                 }
             }
             break; 
-        
+
         case 'satlins':
-            for(i=0 ; i<= n.length ; i++){
-                if(n[i] < -1){
-                    a.push(-1);
-                }else if(n[i] > 1){
-                    a.push(1);
+            for(i = 0 ; i<= mat1.length ; i++){
+                if(mat1[i][0] < -1){
+                    a.push([-1]);
+                }else if(mat1[i][0] > 1){
+                    a.push([1]);
                 }else{
-                    a.push(n[i]);
+                    a.push([mat1[i][0]]);
                 }
             }
+                    
             break; 
-        
+
         case 'logsig':
-            for(i=0 ; i<= n.length ; i++){
-                a.push(1/(1+Math.pow(Math.E,n[i])));
+            for(i = 0 ; i<= mat1.length ; i++){
+                a.push([1/(1+Math.pow(Math.E,mat1[i][0]))]);
             }
             break; 
-        
-        case 'tansig':
-            for(i=0 ; i<= n.length ; i++){
-                a.push((Math.pow(Math.E,n[i]) - Math.pow(Math.E,-1 * n[i])) / (Math.pow(Math.E,n[i]) + Math.pow(Math.E,-1 * n[i])));
-            }
-            break; 
-            
-        case 'poslin':
-            for(i=0 ; i<= n.length ; i++){
-                if(n[i] < 0){
-                    a.push(0);
-                }else{
-                    a.push(n[i]);
+
+            case 'tansig':
+                for(i = 0 ; i<= mat1.length ; i++){
+                    a.push([(Math.pow(Math.E,mat1[i][0]) - Math.pow(Math.E,-1 * mat1[i][0])) / (Math.pow(Math.E,mat1[i][0]) + Math.pow(Math.E,-1 * mat1[i][0]))]);
                 }
-            }
-            break;
-        
-    }
+                break; 
+
+            case 'poslin':
+                for(i = 0 ; i<= mat1.length ; i++){
+                   if(mat1[i][0] < 0){
+                        a.push([0]);
+                    }else{
+                        a.push([mat1[i][0]]);
+                    }
+                }
+                break;
+
+        }
+
     return a;
 }

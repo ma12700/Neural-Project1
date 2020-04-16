@@ -8,7 +8,7 @@
 *** train until the output have only one positive value 
 *** 
 */
-function perceptron (P) {
+function Hamming(P) {
     var W1 = P,
         R = P[0].length,
         B = new Array(),

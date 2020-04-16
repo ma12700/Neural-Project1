@@ -6,6 +6,6 @@
 ***then if isBReq(is the bias require) === "Yes" the add 1 at the end of each row in P
 ***then make testing
 */
-function Pseudoinverse (P ,T ,isBReq, tranfer) {
+function Pseudoinverse(P ,T ,isBReq, tranfer) {
     'use strict';
 }
